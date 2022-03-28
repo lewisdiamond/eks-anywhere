@@ -779,6 +779,14 @@ func WithArg(arg string) KubectlOpt {
 	return appendOpt(arg)
 }
 
+func WithFile(file string) KubectlOpt {
+	return appendOpt("-f", file)
+}
+
+func WithData(data []byte) KubectlOpt {
+	return appendOpt(string(data))
+}
+
 func appendOpt(new ...string) KubectlOpt {
 	return func(args *[]string) {
 		*args = append(*args, new...)
@@ -1412,4 +1420,13 @@ func (k *Kubectl) GetResources(ctx context.Context, resourceType string, opts ..
 	applyOpts(&params, opts...)
 	stdOut, err := k.Execute(ctx, params...)
 	return stdOut, err
+}
+
+func (k *Kubectl) ApplyResourcesFromBytes(ctx context.Context, data []byte) error {
+	params := []string{"apply", "-f", "-"}
+	_, err := k.ExecuteWithStdin(ctx, data, params...)
+	if err != nil {
+		return fmt.Errorf("executing apply: %v", err)
+	}
+	return nil
 }
