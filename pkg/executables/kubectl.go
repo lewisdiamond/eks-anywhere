@@ -1430,3 +1430,12 @@ func (k *Kubectl) ApplyResourcesFromBytes(ctx context.Context, data []byte, kube
 	}
 	return nil
 }
+
+func (k *Kubectl) ApplyResources(ctx context.Context, resource string, opts ...KubectlOpt) error {
+	params := []string{
+		resource,
+	}
+	applyOpts(&params, opts...)
+	_, err := k.Execute(ctx, params...)
+	return err
+}
