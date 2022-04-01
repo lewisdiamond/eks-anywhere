@@ -9,12 +9,12 @@ import (
 	"text/tabwriter"
 
 	"github.com/pkg/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/yaml"
 
 	api "github.com/aws/eks-anywhere-packages/api/v1alpha1"
 	"github.com/aws/eks-anywhere/pkg/constants"
 	"github.com/aws/eks-anywhere/pkg/executables"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 const (
@@ -102,7 +102,7 @@ func GetPackageFromBundle(bundle *api.PackageBundle, packageName string) (*api.B
 
 func InstallPackage(ctx context.Context, bp *api.BundlePackage, b *api.PackageBundle, customName string, kubeConfig string) error {
 	p := convertBundlePackageToPackage(*bp, customName, b.APIVersion)
-	deps, err := newDependencies(ctx)
+	deps, err := newDependencies(ctx, kubeConfig)
 	if err != nil {
 		return fmt.Errorf("unable to initialize executables: %v", err)
 	}
@@ -116,7 +116,7 @@ func InstallPackage(ctx context.Context, bp *api.BundlePackage, b *api.PackageBu
 }
 
 func ApplyResource(ctx context.Context, resource string, fileName string, kubeConfig string) error {
-	deps, err := newDependencies(ctx)
+	deps, err := newDependencies(ctx, kubeConfig)
 	if err != nil {
 		return fmt.Errorf("unable to initialize executables: %v", err)
 	}
@@ -127,7 +127,7 @@ func ApplyResource(ctx context.Context, resource string, fileName string, kubeCo
 }
 
 func DeletePackages(ctx context.Context, args []string, kubeConfig string) error {
-	deps, err := newDependencies(ctx)
+	deps, err := newDependencies(ctx, kubeConfig)
 	if err != nil {
 		return fmt.Errorf("unable to initialize executables: %v", err)
 	}
@@ -138,7 +138,7 @@ func DeletePackages(ctx context.Context, args []string, kubeConfig string) error
 }
 
 func DescribePackages(ctx context.Context, args []string, kubeConfig string) error {
-	deps, err := newDependencies(ctx)
+	deps, err := newDependencies(ctx, kubeConfig)
 	if err != nil {
 		return fmt.Errorf("unable to initialize executables: %v", err)
 	}
@@ -150,8 +150,7 @@ func DescribePackages(ctx context.Context, args []string, kubeConfig string) err
 		return fmt.Errorf("kubectl execution failure: \n%v", err)
 	}
 	if len(stdOut.Bytes()) == 0 {
-		errors.New("No resources found")
-		return nil
+		return errors.New("No resources found")
 	}
 	fmt.Println(&stdOut)
 	return nil

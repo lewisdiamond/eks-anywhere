@@ -4,10 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"sigs.k8s.io/yaml"
+	"path"
 	"strings"
 
 	"github.com/go-logr/logr"
+	"sigs.k8s.io/yaml"
 
 	api "github.com/aws/eks-anywhere-packages/api/v1alpha1"
 	"github.com/aws/eks-anywhere-packages/pkg/artifacts"
@@ -48,7 +49,7 @@ func getLatestBundleFromRegistry(ctx context.Context, kubeVersion string) (*api.
 }
 
 func getActiveBundleFromCluster(ctx context.Context, kubeConfig string) (*api.PackageBundle, error) {
-	deps, err := newDependencies(ctx)
+	deps, err := newDependencies(ctx, kubeConfig)
 	if err != nil {
 		return nil, fmt.Errorf("unable to initialize executables: %v", err)
 	}
@@ -105,9 +106,10 @@ func UpgradeBundle(ctx context.Context, controller *api.PackageBundleController,
 	return nil
 }
 
-func newDependencies(ctx context.Context) (*dependencies.Dependencies, error) {
+func newDependencies(ctx context.Context, kubeConfig string) (*dependencies.Dependencies, error) {
 	return dependencies.NewFactory().
 		WithExecutableImage(executables.DefaultEksaImage()).
+		WithExecutableMountDirs(path.Dir(kubeConfig)).
 		WithExecutableBuilder().
 		WithKubectl().
 		Build(ctx)
