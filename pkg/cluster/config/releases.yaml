@@ -5,14 +5,14 @@ metadata:
 spec:
   latestVersion: ""
   releases:
-    - bundleManifestUrl: "embed:///config/bundle-release.yaml"
+    - bundleManifestUrl: "embed:///config/local-bundle-release.yaml"
       date: ""
       eksABinary: {}
       gitCommit: ""
       gitTag: ""
       number: 0
       version: v0.0.0-dev
-    - bundleManifestUrl: "embed:///config/bundle-release.yaml"
+    - bundleManifestUrl: "embed:///config/local-bundle-release.yaml"
       date: ""
       eksABinary: {}
       gitCommit: ""

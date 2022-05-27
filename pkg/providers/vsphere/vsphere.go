@@ -576,6 +576,9 @@ func AnyImmutableFieldChanged(oldVdc, newVdc *v1alpha1.VSphereDatacenterConfig, 
 	if oldVmc.Spec.NumCPUs != newVmc.Spec.NumCPUs {
 		return true
 	}
+	if oldVmc.Spec.NumCoresPerSocket != newVmc.Spec.NumCoresPerSocket {
+		return true
+	}
 	if oldVmc.Spec.MemoryMiB != newVmc.Spec.MemoryMiB {
 		return true
 	}
@@ -743,6 +746,7 @@ func buildTemplateMapCP(clusterSpec *cluster.Spec, datacenterSpec v1alpha1.VSphe
 		"vsphereTemplate":                      controlPlaneMachineSpec.Template,
 		"controlPlaneVMsMemoryMiB":             controlPlaneMachineSpec.MemoryMiB,
 		"controlPlaneVMsNumCPUs":               controlPlaneMachineSpec.NumCPUs,
+		"controlPlaneVMsNumCoresPerSocket":     controlPlaneMachineSpec.NumCoresPerSocket,
 		"controlPlaneDiskGiB":                  controlPlaneMachineSpec.DiskGiB,
 		"controlPlaneSshUsername":              controlPlaneMachineSpec.Users[0].Name,
 		"podCidrs":                             clusterSpec.Cluster.Spec.ClusterNetwork.Pods.CidrBlocks,
@@ -804,6 +808,7 @@ func buildTemplateMapCP(clusterSpec *cluster.Spec, datacenterSpec v1alpha1.VSphe
 		values["etcdDiskGiB"] = etcdMachineSpec.DiskGiB
 		values["etcdVMsMemoryMiB"] = etcdMachineSpec.MemoryMiB
 		values["etcdVMsNumCPUs"] = etcdMachineSpec.NumCPUs
+		values["etcdVMsNumCoresPerSocket"] = etcdMachineSpec.NumCoresPerSocket
 		values["etcdVsphereResourcePool"] = etcdMachineSpec.ResourcePool
 		values["etcdVsphereStoragePolicyName"] = etcdMachineSpec.StoragePolicyName
 		values["etcdSshUsername"] = etcdMachineSpec.Users[0].Name
@@ -849,6 +854,7 @@ func buildTemplateMapMD(clusterSpec *cluster.Spec, datacenterSpec v1alpha1.VSphe
 		"vsphereTemplate":                workerNodeGroupMachineSpec.Template,
 		"workloadVMsMemoryMiB":           workerNodeGroupMachineSpec.MemoryMiB,
 		"workloadVMsNumCPUs":             workerNodeGroupMachineSpec.NumCPUs,
+		"workloadVMsNumCoresPerSocket":   workerNodeGroupMachineSpec.NumCoresPerSocket,
 		"workloadDiskGiB":                workerNodeGroupMachineSpec.DiskGiB,
 		"workerSshUsername":              workerNodeGroupMachineSpec.Users[0].Name,
 		"format":                         format,

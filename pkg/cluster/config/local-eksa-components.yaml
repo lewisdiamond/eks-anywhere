@@ -5172,7 +5172,7 @@ spec:
         - --health-probe-bind-address=:8081
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
-        image: public.ecr.aws/l0g8r8j6/eks-anywhere-cluster-controller:v0.0.0-eks-a-v0.0.0-dev-build.251
+        image: public.ecr.aws/l0g8r8j6/eks-anywhere-cluster-controller:v0.9.1-eks-a-v0.0.0-dev-build.2915
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -5199,7 +5199,7 @@ spec:
         - --upstream=http://127.0.0.1:8080/
         - --logtostderr=true
         - --v=10
-        image: public.ecr.aws/l0g8r8j6/brancz/kube-rbac-proxy:v0.8.0-eks-a-v0.0.0-dev-build.251
+        image: public.ecr.aws/l0g8r8j6/brancz/kube-rbac-proxy:v0.8.0-eks-a-v0.0.0-dev-build.584
         name: kube-rbac-proxy
         ports:
         - containerPort: 8443

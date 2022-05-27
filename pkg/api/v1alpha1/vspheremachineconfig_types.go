@@ -11,6 +11,7 @@ type VSphereMachineConfigSpec struct {
 	DiskGiB           int                 `json:"diskGiB,omitempty"`
 	Datastore         string              `json:"datastore"`
 	Folder            string              `json:"folder"`
+	NumCoresPerSocket int                 `json:"numCoresPerSocket,omitempty"`
 	NumCPUs           int                 `json:"numCPUs"`
 	MemoryMiB         int                 `json:"memoryMiB"`
 	OSFamily          OSFamily            `json:"osFamily"`

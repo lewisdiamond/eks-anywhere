@@ -60,6 +60,7 @@ spec:
         - dhcp4: true
           networkName: {{.vsphereNetwork}}
       numCPUs: {{.controlPlaneVMsNumCPUs}}
+      numCoresPerSocket: {{.controlPlaneVMsNumCoresPerSocket}}
       resourcePool: '{{.controlPlaneVsphereResourcePool}}'
       server: {{.vsphereServer}}
 {{- if (ne .controlPlaneVsphereStoragePolicyName "") }}
@@ -524,6 +525,7 @@ spec:
           - dhcp4: true
             networkName: {{.vsphereNetwork}}
       numCPUs: {{.etcdVMsNumCPUs}}
+      numCoresPerSocket: {{.etcdVMsNumCoresPerSocket}}
       resourcePool: '{{.etcdVsphereResourcePool}}'
       server: {{.vsphereServer}}
 {{- if (ne .etcdVsphereStoragePolicyName "") }}

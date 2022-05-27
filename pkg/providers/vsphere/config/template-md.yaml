@@ -155,6 +155,7 @@ spec:
         - dhcp4: true
           networkName: {{.vsphereNetwork}}
       numCPUs: {{.workloadVMsNumCPUs}}
+      numCoresPerSocket: {{.workloadVMsNumCoresPerSocket}}
       resourcePool: '{{.workerVsphereResourcePool}}'
       server: {{.vsphereServer}}
 {{- if (ne .workerVsphereStoragePolicyName "") }}

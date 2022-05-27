@@ -47,6 +47,8 @@ spec:
                 type: integer
               numCPUs:
                 type: integer
+              numCoresPerSocket:
+                type: integer
               osFamily:
                 type: string
               resourcePool:
